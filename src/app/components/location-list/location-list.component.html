@@ -1,0 +1,27 @@
+<h3 class="text-lg font-semibold text-gray-700 mb-2">
+  Selectați una sau mai multe modalități de plată
+</h3>
+
+<div class="space-y-2">
+  @if (isLoadingComplete$ | async) {
+    @for (location of locations$ | async; track location.locationId) {
+      <app-location
+        [location]="location"
+        class="block p-3 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition"
+      ></app-location>
+    }
+  } @else {
+    <app-loading></app-loading>
+  }
+</div>
+
+<div class="flex flex-wrap gap-4 p-4">
+  <ng-container *ngIf="groupedLocations$ | async as groupedLocations">
+    @for (city of cityNames$ | async; track city) {
+      <app-group-card
+        [city]="city"
+        [locations]="groupedLocations[city]">
+      </app-group-card>
+    }
+  </ng-container>
+</div>
